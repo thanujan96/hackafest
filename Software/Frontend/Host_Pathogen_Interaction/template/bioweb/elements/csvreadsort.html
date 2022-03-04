@@ -1,5 +1,31 @@
-<div>
-    <form action="">
-        <input type="range" min="1" max="10" />
+<div style="padding-right:10px;"><br>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <span style="padding-right: 40px;padding-left:15px">Start</span>
+            <span>End</span>
+        </div>
+        <div>
+            <span>
+            <input type="number" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" name="startRow" min="0" id="sortmininput" style="width: 70px;" required value="0" onchange="document.getElementById('sortmaxinput').setAttribute('min',document.getElementById('sortmininput').value);">
+            </span>
+            <span>
+            <input hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" type="number" id="sortmaxinput"  name="endRow" min="0" max={{maxRow}} id="" style="width: 70px;" required value={{maxRow}}>
+            </span>
+            <div id="selectedrows" hx-post="/summa/" hx-target="#time" hx-trigger="change"></div>
+            <div id="time"></div>
+        </div>
+        <br>
+        <span>
+        <select name="sortview" id="tablehead" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change">
+            <option value="None">Selcet</option>
+
+            {% for i in tablesHead%}
+                <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+         </select>
+         </span>
+        <span>
+         </span>
     </form>
 </div>

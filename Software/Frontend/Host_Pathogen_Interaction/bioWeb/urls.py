@@ -29,4 +29,8 @@ urlpatterns = [
     path("csvviews/<id>", views.csvView, name="CsvView"),
     path("csvdelete/<id>", views.csvDelete, name="CsvDelete"),
     path("readcsv/<id>", views.readCSV, name="ReadCSV"),
+    path("sortcsv", views.sortcsv, name="SortCsv"),
+    path("selectedrow/", views.selectedrow, name="selectedrow"),
+    path("summa/", views.summa, name="summa"),
+
 ]
