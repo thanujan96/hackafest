@@ -12,8 +12,6 @@
             <span>
             <input hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" type="number" id="sortmaxinput"  name="endRow" min="0" max={{maxRow}} id="" style="width: 70px;" required value={{maxRow}}>
             </span>
-            <div id="selectedrows" hx-post="/summa/" hx-target="#time" hx-trigger="change"></div>
-            <div id="time"></div>
         </div>
         <br>
         <span>
@@ -23,7 +21,9 @@
             {% for i in tablesHead%}
                 <option value="{{i}}">{{i}}</option>
             {% endfor %}
-         </select>
+         </select><br>
+        rows : <input type="number" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" name="noOfRow" min="0" max="{{maxRow}}" id="sortmininput" style="width: 70px;" required value="0">
+
          </span>
         <span>
          </span>
