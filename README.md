@@ -36,5 +36,35 @@ we are suggesting a web application integrated with a machine learning framework
 - [University of Peradeniya](https://eng.pdn.ac.lk/)
 
 
+## How to run.
+- step 01- clone repo
+```
+git clone https://github.com/cepdnaclk/e17-co328-Host-Pathogen-Interaction.git
+```
+- step 02 - activate virtual environment<br/>
+    run active file in the software/frontend/script<br/>
+    A. On Windows(open CMD on script folder)
+    ```
+    activate.bat
+    ```
+    B. On linux(open terminal on script folder)
+    ```
+    source activate
+    ```
+- step 03 - install modules
+    <br/>move to folder Fronted in terminal
+    ```
+    pip install -r requirements.txt
+    ```
+- step 04 - database migrations
+    move to folder Host_Pathogen_Interaction
+    ```
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+- step 05 - run server
+    ```
+    python manage.py runserver
+    ```
 [//]: # (Please refer this to learn more about Markdown syntax)
 [//]: # (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
