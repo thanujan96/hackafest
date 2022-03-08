@@ -1,6 +1,6 @@
 import csv
 from fileinput import filename
-from msilib.schema import tables
+# from msilib.schema import tables
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -114,7 +114,7 @@ def readCSV(request,id):
     if(request.user.id==userIdformColl):
         csvFileName = csvFile.csvFile
         df = pd.read_csv(csvFileName)
-        tablesHead = df.columns
+        # tablesHead = df.columns
         if(request.method == "POST" and request.POST.get("csvsort") == "Filter"):
             endRow = int(request.POST.get("endRow"))
             startRow =int(request.POST.get("startRow"))
@@ -125,7 +125,7 @@ def readCSV(request,id):
             data = df1.to_html()
             context={
                 "csvfiledata": data,
-                'tablesHead': tablesHead,
+                # # 'tablesHead': tablesHead,
                 'maxRow': df.shape[0]-1,
                 'totalRows': df.shape[0]
             }
@@ -133,7 +133,7 @@ def readCSV(request,id):
         data = df.to_html()
         context = {
             "csvfiledata": data,
-            'tablesHead': tablesHead,
+            # # 'tablesHead': tablesHead,
             'totalRows': df.shape[0],
             'maxRow': df.shape[0]-1,
         }
@@ -154,7 +154,7 @@ def selectedrow(request):
     csvFile = CSVFile.objects.get(id=id)
     csvFileName = csvFile.csvFile
     df = pd.read_csv(csvFileName)
-    tablesHead = df.columns
+    # tablesHead = df.columns
     endRow = int(request.POST.get("endRow"))
     startRow =int(request.POST.get("startRow"))
     selectValue = request.POST.get("sortview")
@@ -164,7 +164,7 @@ def selectedrow(request):
     data = df1.to_html()
     context={
         "csvfiledata": data,
-        'tablesHead': tablesHead,
+        # # 'tablesHead': tablesHead,
         'maxRow': df.shape[0]-1,
         'totalRows': df.shape[0]
     }

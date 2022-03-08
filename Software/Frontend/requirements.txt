@@ -12,3 +12,4 @@ tzdata==2021.5
 whitenoise==6.0.0
 martor
 gunicorn
+pandas
