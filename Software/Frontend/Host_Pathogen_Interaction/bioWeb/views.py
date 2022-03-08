@@ -1,6 +1,5 @@
 import csv
 from fileinput import filename
-from msilib.schema import tables
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -158,10 +157,14 @@ def selectedrow(request):
     endRow = int(request.POST.get("endRow"))
     startRow =int(request.POST.get("startRow"))
     selectValue = request.POST.get("sortview")
+    noOfRows = request.POST.get("noOfRow",False)
     df1 = df.iloc[int(startRow):int(endRow)+1]
     if(selectValue != "None"):
         df1 = df1.sort_values(selectValue)
+    if(selectValue):
+        df1 = df1.head(int(noOfRows))
     data = df1.to_html()
+    max=2
     context={
         "csvfiledata": data,
         'tablesHead': tablesHead,

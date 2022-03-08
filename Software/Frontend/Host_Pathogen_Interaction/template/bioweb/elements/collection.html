@@ -6,7 +6,7 @@
         <span class="header">
                             <form method="POST" id="editcollection{{coll.id}}" style="display:none;">
                                 {% csrf_token %}
-                                <input style="width:90%;margin:auto;background-color: aliceblue;color: black;border: 0px;text-align: center;text-decoration: underline" class="browsebutton" type="text" name="name" id="" placeholder="Enter the name" value="{{coll.collectionName}}">
+                                <input style="width:90%;margin:auto;background-color: aliceblue;color: black;border: 0px;text-align: center;text-decoration: underline" class="browsebutton" type="text" name="name" id="" placeholder="Enter the name" required>
                                 <input hidden type="text" name="id" id="" value="{{coll.id}}">
                                 <div style="margin: auto;">
                                 <input class="mybtn btn btn-info" style="border: 0px;text-align: center;width: fit-content;margin: auto;"  type="submit" value="Add">
