@@ -1,6 +1,6 @@
 import csv
 from fileinput import filename
-from msilib.schema import tables
+# from msilib.schema import tables
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
