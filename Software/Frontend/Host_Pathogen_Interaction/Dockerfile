@@ -16,15 +16,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 #     && apt-get install libpq-dev gcc musl
 
 #copy source and install dependencies
-# RUN mkdir -p /usr/src/app
-# RUN mkdir -p /usr/src/app/pip_cache
-# RUN mkdir -p /usr/src/app/Host_Pathogen_Interaction
-#copy source and install dependencies
 RUN mkdir -p /usr/src/Host_Pathogen_Interaction
 RUN mkdir -p /usr/src/Host_Pathogen_Interaction/pip_cache
-RUN mkdir -p /usr/src/Host_Pathogen_Interaction/Host_Pathogen_Interaction
 
-
+WORKDIR /usr/src/Host_Pathogen_Interaction
 
 COPY requirements.txt start-server.sh /usr/src/Host_Pathogen_Interaction/
 COPY .pip_cache /usr/src/Host_Pathogen_Interaction/pip_cache

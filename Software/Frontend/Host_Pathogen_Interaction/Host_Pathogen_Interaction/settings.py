@@ -29,9 +29,9 @@ SECRET_KEY = 'django-insecure-(%(%8%%quhnjbr7rl34h(&fquo7)g=*qd((y3kmjxfte5r*8s8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bio2web.herokuapp.com', '127.0.0.1', '127.0.0.1','localhost']
+ALLOWED_HOSTS = ['bio2web.herokuapp.com', '127.0.0.1', '0.0.0.0','localhost']
 
-
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8020']
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,6 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 

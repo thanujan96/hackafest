@@ -157,4 +157,4 @@ cython_debug/
 
 
 *.csv
-*.zip
+*.zip./Software/Frontend/venv/
