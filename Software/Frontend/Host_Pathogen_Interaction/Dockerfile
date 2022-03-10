@@ -11,9 +11,7 @@ COPY nginx.default /etc/nginx/sites-available/default
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
-# # install psycopg2 dependencies
-# RUN apt-get update \
-#     && apt-get install libpq-dev gcc musl
+
 
 #copy source and install dependencies
 RUN mkdir -p /usr/src/Host_Pathogen_Interaction
@@ -25,7 +23,6 @@ COPY requirements.txt start-server.sh /usr/src/Host_Pathogen_Interaction/
 COPY .pip_cache /usr/src/Host_Pathogen_Interaction/pip_cache
 COPY Host_Pathogen_Interaction /usr/src/Host_Pathogen_Interaction/Host_Pathogen_Interaction/
 RUN pip3 install -r requirements.txt --cache-dir /usr/src/Host_Pathogen_Interaction/pip_cache
-# copy entrypoint.sh
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g' /usr/src/Host_Pathogen_Interaction/entrypoint.sh
 # RUN chown -R www-data:www-data /usr/src/Host_Pathogen_Interaction/
