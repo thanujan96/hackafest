@@ -21,11 +21,17 @@
             {% for i in tablesHead%}
                 <option value="{{i}}">{{i}}</option>
             {% endfor %}
-         </select><br>
+         </select><br/><br/>
         rows : <input type="number" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" name="noOfRow" min="0" max="{{maxRow}}" id="sortmininput" style="width: 70px;" required value="0">
 
          </span>
         <span>
          </span>
+        <br>
+        <br/>
+        <div class="mybtn btn btn-info " id="dataview" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="click" onclick="document.getElementById('viewarea').style.display='block'">visualize</div>
     </form>
+    <br>
+
+
 </div>

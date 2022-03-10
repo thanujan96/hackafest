@@ -1,6 +1,6 @@
 import csv
 from fileinput import filename
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -104,6 +104,7 @@ def csvDelete(request, id):
 
 
 def readCSV(request,id):
+    print("readCSV call aakuthu")
     try:
         csvFile=CSVFile.objects.get(id=id)
     except:
@@ -164,13 +165,13 @@ def selectedrow(request):
     if(selectValue):
         df1 = df1.head(int(noOfRows))
     data = df1.to_html()
-    max=2
-    context={
-        "csvfiledata": data,
-        'tablesHead': tablesHead,
-        'maxRow': df.shape[0]-1,
-        'totalRows': df.shape[0]
-    }
+    x=2
+    # context={
+    #     "csvfiledata": data,
+    #     'tablesHead': tablesHead,
+    #     'maxRow': df.shape[0]-1,
+    #     'totalRows': df.shape[0]
+    # }
     return HttpResponse(data)
     # print("hello")
     start = request.POST.get('startRow')
@@ -182,3 +183,41 @@ def summa(request):
     # print("hello")
     import datetime
     return HttpResponse("Time :"+str(datetime.datetime.now()))
+
+
+# data visualizer
+
+def visualizer(request):
+    id = request.META.get('HTTP_REFERER').split('/')[-1]
+    csvFile=CSVFile.objects.get(id=id)
+    coll = csvFile.collectionId
+    csvFileName = csvFile.csvFile
+    df = pd.read_csv(csvFileName)
+    userIdformColl=Collection.objects.get(id=coll.id).userId.id
+    try:
+        endRow = int(request.POST.get("endRow"))
+        startRow =int(request.POST.get("startRow"))
+    except:pass
+    selectValue = request.POST.get("columnview")
+    noOfRows = request.POST.get("noOfRow",False)
+    chartType=request.POST.get("charttype",'line')
+    tablesHead = df.columns
+    # df1 = df.iloc[int(startRow):int(endRow)+1]
+    df1=df
+    if(noOfRows):
+        print(noOfRows)
+        df1 = df1.head(int(noOfRows))
+    if(selectValue != "None"):
+        # df1 = df1.sort_values(selectValue)
+        selectColumn=df1[selectValue]
+    else:
+        selectColumn=df1.value
+    if(request.user.id==userIdformColl):
+        data={
+            # 'tablesHead': tablesHead,
+            'charttype':chartType,
+            'value':list(selectColumn),
+            'label':[i for i in range(len(list(selectColumn)))],
+            'title':selectValue
+        }
+        return render(request,'bioweb/visualizer.html',data)
