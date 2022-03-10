@@ -25,8 +25,15 @@
 </div>
                 <form method="POST">
                     {% csrf_token %}
-                    <select name="columnview" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
-                        <option value="None">Selcet</option>
+                    <select name="yaxis" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                        <option value="None">Selcet-y</option>
+
+                        {% for i in tablesHead%}
+                            <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                     <select name="xaxis" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                        <option value="None">Selcet-x</option>
 
                         {% for i in tablesHead%}
                             <option value="{{i}}">{{i}}</option>
