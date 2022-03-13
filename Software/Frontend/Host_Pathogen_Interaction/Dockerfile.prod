@@ -24,11 +24,11 @@ RUN apt-get update \
 RUN pip install --upgrade pip
 RUN pip install flake8==3.9.2
 COPY . .
-RUN flake8 --ignore=E501,F401 ./Host_Pathogen_Interaction
+
 
 # install dependencies
 COPY ./requirements.txt .
-
+RUN flake8 --ignore=E501,F401 ./Host_Pathogen_Interaction
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
 
@@ -65,6 +65,8 @@ RUN pip install --no-cache /wheels/*
 COPY ./entrypoint_prod.sh .
 RUN sed -i 's/\r$//g'  $APP_HOME/entrypoint_prod.sh
 RUN chmod +x  $APP_HOME/entrypoint_prod.sh
+
+
 
 # copy project
 COPY . $APP_HOME
