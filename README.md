@@ -22,8 +22,8 @@ When considering the problems in this field we found some of the major things.
 we are suggesting a web application integrated with a machine learning framework and statistical methods.it can help user they can analyze their microbiome data without any machine learning knowledge because our software proving the GUI for doing such things
 
 ## Prerequist Tecgnolgies To Run this Application
-Docker
-Docker-Compose
+- Docker
+- Docker-Compose
 
 ## Installation
 
