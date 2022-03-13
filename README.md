@@ -21,13 +21,17 @@ When considering the problems in this field we found some of the major things.
 ## solutions
 we are suggesting a web application integrated with a machine learning framework and statistical methods.it can help user they can analyze their microbiome data without any machine learning knowledge because our software proving the GUI for doing such things
 
+## Prerequist Tecgnolgies To Run this Application
+Docker
+Docker-Compose
 
 ## Installation
 
+
+### Development level
+
 ```
-/**
-Development
-**/
+
 //Build the new image and spin up the two containers.(only after content changed in requirments.txt or docker-relatedfiles)
 //creating new containers.
 docker-compose up -d --build
@@ -35,10 +39,12 @@ docker-compose up -d --build
 //Run an existing containers
 docker-compose up 
 
+//now app will be run on https://localhost:8000
 
-/**
-Production
-**/
+```
+### Production level
+
+```
 
 //spin down the development containers
 docker-compose down -v
@@ -56,6 +62,8 @@ docker-compose exec web python manage.py collectstatic --no-input --clear
 
 //Run an existing containers
 docker-compose -f docker-compose.prod.yml up 
+
+//now app will be run on https://localhost:1337
 
 ```
 
