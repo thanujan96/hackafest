@@ -198,26 +198,31 @@ def visualizer(request):
         endRow = int(request.POST.get("endRow"))
         startRow =int(request.POST.get("startRow"))
     except:pass
-    selectValue = request.POST.get("columnview")
+    yAxis = request.POST.get("yaxis")
+    xAxis = request.POST.get("xaxis")
     noOfRows = request.POST.get("noOfRow",False)
     chartType=request.POST.get("charttype",'line')
     tablesHead = df.columns
     # df1 = df.iloc[int(startRow):int(endRow)+1]
     df1=df
     if(noOfRows):
-        print(noOfRows)
         df1 = df1.head(int(noOfRows))
-    if(selectValue != "None"):
-        # df1 = df1.sort_values(selectValue)
-        selectColumn=df1[selectValue]
+    if(yAxis != "None"):
+        selectColumn=df1[yAxis]
     else:
         selectColumn=df1.value
+    if(xAxis != "None"):
+        selectedLabel=list(df1[xAxis])
+        selectedLabel.sort()
+    else:
+        selectedLabel=[i for i in range(len(list(selectColumn)))]
+    print(selectedLabel)
     if(request.user.id==userIdformColl):
         data={
             # 'tablesHead': tablesHead,
             'charttype':chartType,
             'value':list(selectColumn),
-            'label':[i for i in range(len(list(selectColumn)))],
-            'title':selectValue
+            'label':selectedLabel,
+            'title':yAxis+" VS "+xAxis
         }
         return render(request,'bioweb/visualizer.html',data)
