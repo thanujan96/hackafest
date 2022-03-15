@@ -5,18 +5,33 @@
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_settings-panel.html -->
         {% include './elements/settings.html' %}
+        {% if user.is_authenticated %}
+            {% include './elements/sidebar.html' %}
+        <div class="container">
+            <div class="row">
+                {% include './elements/csvreadsort.html' with maxRow=maxRow %}
+            </div>
+            <div class"row">Total rows:{{totalRows}}</div>
+            <div class="row">
+                <div class="col-11">
+                    <div id="csvfileviewer">
+                        {{csvfiledata|safe}}
+                    </div>
+                </div>
+                {% comment %} <div class="col-1">
+                    <div>Action</div>
+                    <button type="button" class="btn btn-outline-secondary" onclick="showUserEditBox('+object['id']+')">Edit</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="userDelete('+object['id']+')">Del</button></td>
+                </div> {% endcomment %}
+                
+            </div>
 
-        <!-- partial -->
-        <!-- partial:partials/_sidebar.html -->
-        {% if user.is_authenticated %}{% include './elements/sidebar.html' %}{% include './elements/csvreadsort.html' with maxRow=maxRow %}
-        <div id="csvfileviewer">
-            <div>Total rows:{{totalRows}}</div>
-            {{csvfiledata|safe}}
         </div>
         {% endif %}
 
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+
 <!-- container-scroller -->
 {% include './elements/footer.html' %}

@@ -6,9 +6,9 @@
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" id="fileToUpload" class="mybtn btn btn-info " name="myfile"><br>
+            <input type="file" accept=".csv,.tsv" id="fileToUpload" class="mybtn btn btn-info " name="myfile"><br>
             <button type="submit" class="mybtn btn btn-info " width="100%">Upload</button>
-            <div class="support">Supports: CSV</div>
+            <div class="support">Supports: CSV,TSV</div>
 
 
         </form>

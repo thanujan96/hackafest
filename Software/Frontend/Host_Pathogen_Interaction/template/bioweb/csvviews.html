@@ -8,7 +8,9 @@
 
         <!-- partial -->
         <!-- partial:partials/_sidebar.html -->
-        {% if user.is_authenticated %} {% include './elements/sidebar.html' %} {% include './elements/csvupload.html' %}
+        {% if user.is_authenticated %}
+            {% include './elements/sidebar.html' %}
+            {% include './elements/csvupload.html' %}
         <div class="collectionview">
             {% for csv in csvviews%}
             <div class="uploadSection">
@@ -30,7 +32,7 @@
                                 <a href="/csvdelete/{{csv.id}}" style="display: grid;"><button type="button " class="mybtn btn btn-info ">Delete</button></a>
                             </div>
 
-                    <span class="header" id="collname{{csv.id}}"> <span class="browsebutton">{{csv.fileName}}</span></span>
+                    <span class="header" id="collname{{csv.id}}"> <div class="browsebutton">{{csv.fileName}}</div></span>
                     <!-- <input type="file" hidden id="fileToUpload" type=".csv" /> -->
                     </span>
                     <div class="support">Files: {{csv.id}}</div>
