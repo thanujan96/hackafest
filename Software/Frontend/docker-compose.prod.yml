@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  # db:
+  #   image: nouchka/sqlite3:latest
+
+  web:
+    build:
+      context: ./Host_Pathogen_Interaction
+      dockerfile: Dockerfile.prod
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+    # command: gunicorn Host_Pathogen_Interaction.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py createsuperuser --noinput  && gunicorn Host_Pathogen_Interaction.wsgi:application --bind 0.0.0.0:8000"
+      # gunicorn Host_Pathogen_Interaction.wsgi:application --bind 0.0.0.0:8000
+      # sh -c "python manage.py makemigrations && python manage.py migrate && 
+      # python manage.py createsuperuser --noinput  && gunicorn Host_Pathogen_Interaction.wsgi:application --bind 0.0.0.0:8000"    
+    expose:
+      - 8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+  db:
+    image: postgres:13.4-buster
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:

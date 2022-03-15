@@ -19,11 +19,20 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from bioWeb import views
+
 urlpatterns = [
-    path("",views.index,name="Index"),
+    path("", views.index, name="Index"),
     path("register/", views.register, name="Register"),
-    path("login/", auth_views.LoginView.as_view(template_name='bioweb/login.html'), name="Login"),
-    path("logout/", auth_views.LogoutView.as_view(template_name='bioweb/indexnew.html'), name="Logout"),
+    path(
+        "login/",
+        auth_views.LoginView.as_view(template_name="bioweb/login.html"),
+        name="Login",
+    ),
+    path(
+        "logout/",
+        auth_views.LogoutView.as_view(template_name="bioweb/indexnew.html"),
+        name="Logout",
+    ),
     path("collections/", views.collections, name="Collections"),
     path("colldelete/<id>", views.collDelete, name="CollDelete"),
     path("csvviews/<id>", views.csvView, name="CsvView"),
@@ -32,6 +41,5 @@ urlpatterns = [
     path("sortcsv", views.sortcsv, name="SortCsv"),
     path("selectedrow/", views.selectedrow, name="selectedrow"),
     path("summa/", views.summa, name="summa"),
-    path("visualizer/", views.visualizer, name="visualizer"),
-
+    path("visualizer/", views.visualizer, name="visualizer")
 ]
