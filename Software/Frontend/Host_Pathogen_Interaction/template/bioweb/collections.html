@@ -8,7 +8,9 @@
 
         <!-- partial -->
         <!-- partial:partials/_sidebar.html -->
-        {% if user.is_authenticated %} {% include './elements/sidebar.html' %} {% include './elements/collection.html' %}
+        {% if user.is_authenticated %} 
+        {% include './elements/sidebar.html' %} 
+        {% include './elements/collection.html' %}
         <div class="collectionview">
             {% for coll in collection%}
             <div class="uploadSection">

@@ -24,7 +24,7 @@ urlpatterns = [
     path("register/", views.register, name="Register"),
     path("login/", auth_views.LoginView.as_view(template_name='bioweb/login.html'), name="Login"),
     path("logout/", auth_views.LogoutView.as_view(template_name='bioweb/indexnew.html'), name="Logout"),
-    path("collections/", views.collections, name="Collections"),
+    path("experiments/", views.collections, name="Collections"),
     path("colldelete/<id>", views.collDelete, name="CollDelete"),
     path("csvviews/<id>", views.csvView, name="CsvView"),
     path("csvdelete/<id>", views.csvDelete, name="CsvDelete"),
