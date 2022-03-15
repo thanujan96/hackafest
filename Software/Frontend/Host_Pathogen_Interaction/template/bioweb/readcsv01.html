@@ -1,0 +1,67 @@
+{% load static %}{% include './elements/header.html' %}
+<div class="container-scroller">
+    {% include './elements/navbar.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_settings-panel.html -->
+        {% include './elements/settings.html' %}
+
+        <!-- partial -->
+        <!-- partial:partials/_sidebar.html -->
+        {% if user.is_authenticated %} {% include './elements/sidebar.html' %} 
+        
+        <span>
+        {% include './elements/csvreadsort.html' with maxRow=maxRow %}
+        <div>Total rows:{{totalRows}}</div>
+        <div>
+            <div id="csvfileviewer">
+                {{csvfiledata|safe}}
+            </div>
+            <div>curd area</div>
+        </div>
+        </span>
+
+
+        <span id="viewarea">
+                <div class="icon">
+    {{charttype}}
+    <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute;right: 0px;" width='15px' viewBox="0 0 320 512" onclick="document.getElementById('viewarea').style.display='none'">
+        <path 
+            d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
+        </svg>
+</div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <select name="yaxis" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                        <option value="None">Selcet-y</option>
+
+                        {% for i in tablesHead%}
+                            <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                     <select name="xaxis" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                        <option value="None">Selcet-x</option>
+
+                        {% for i in tablesHead%}
+                            <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                    rows : <input type="number" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change" name="noOfRow" min="0" max="{{maxRow}}" id="sortmininput" style="width: 70px;" required value="0">
+                    <select name="charttype" id="charttype" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                        <option value="line">Charts</option>
+                            <option value="bar">bar</option>
+                            <option value="pie">pie</option>
+                            <option value="line">line</option>
+                    </select>
+                </form>
+                <div id="chartview"></div>
+                
+                {% comment %} {% include './elements/visualizer.html' with data=data %} {% endcomment %}
+            </span> {% endif %}
+
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+<!-- container-scroller -->
+{% include './elements/footer.html' %}
