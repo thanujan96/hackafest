@@ -33,5 +33,6 @@ urlpatterns = [
     path("selectedrow/", views.selectedrow, name="selectedrow"),
     path("summa/", views.summa, name="summa"),
     path("visualizer/", views.visualizer, name="visualizer"),
+    path("profile/", views.profile, name="Profile"),
 
 ]

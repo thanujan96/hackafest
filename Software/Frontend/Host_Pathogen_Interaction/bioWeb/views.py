@@ -71,10 +71,11 @@ def csvView(request,id):
         try:
             id = request.FILES
             myfile = request.FILES['myfile']
-            print(myfile.name)
+            df = pd.read_csv(myfile,sep="\t")
+            df.to_csv("bioWeb/csvFiles/"+myfile.name.split(".")[0]+".csv", sep=',')
             collectionInstance=Collection.objects.get(id=collectionNo)
             newFile = CSVFile(fileName=myfile.name.split(
-                ".")[0], collectionId=collectionInstance, csvFile=myfile)
+                ".")[0], collectionId=collectionInstance, csvFile="bioWeb/csvFiles/"+myfile.name.split(".")[0]+".csv")
             newFile.save()
             return redirect(url)
         except:
@@ -120,8 +121,10 @@ def readCSV(request,id):
             startRow =int(request.POST.get("startRow"))
             selectValue = request.POST.get("sortview")
             if(selectValue!="None"):
-                df = df.sort_values(selectValue)
-            df1 = df.iloc[int(startRow):int(endRow)+1]
+                df1 = df.sort_values(selectValue)
+            if(df1.shape[0]>100):
+                df1=df1.head(100)
+            df1 = df1.iloc[int(startRow):int(endRow)+1]
             data = df1.to_html()
             context={
                 "csvfiledata": data,
@@ -130,7 +133,11 @@ def readCSV(request,id):
                 'totalRows': df.shape[0]
             }
             return render(request, 'bioweb/readcsv.html',context)
-        data = df.to_html()
+        if(df.shape[0]>100):
+            df1=df.head(100)
+        else:
+            df1=df
+        data = df1.to_html()
         context = {
             "csvfiledata": data,
             'tablesHead': tablesHead,
@@ -159,11 +166,15 @@ def selectedrow(request):
     startRow =int(request.POST.get("startRow"))
     selectValue = request.POST.get("sortview")
     noOfRows = request.POST.get("noOfRow",False)
+
     df1 = df.iloc[int(startRow):int(endRow)+1]
     if(selectValue != "None"):
         df1 = df1.sort_values(selectValue)
-    if(selectValue):
+    if(noOfRows!='0'):
         df1 = df1.head(int(noOfRows))
+    else:
+        df1 = df1.head(int(20))
+    
     data = df1.to_html()
     x=2
     # context={
@@ -226,3 +237,6 @@ def visualizer(request):
             'title':yAxis+" VS "+xAxis
         }
         return render(request,'bioweb/visualizer.html',data)
+
+def profile(request):
+    return render(request,'bioweb/profile.html')
