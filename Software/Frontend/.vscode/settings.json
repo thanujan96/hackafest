@@ -1,0 +1,6 @@
+{
+    "python.formatting.provider": "black",
+    "python.linting.flake8CategorySeverity.F": "Information",
+    "python.linting.flake8CategorySeverity.W": "Information",
+    "editor.formatOnSave": true
+}
