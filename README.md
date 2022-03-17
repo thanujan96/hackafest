@@ -114,5 +114,4 @@ git clone https://github.com/cepdnaclk/e17-co328-Host-Pathogen-Interaction.git
     python manage.py runserver
 Thank you
     ```
-[//]: # (Please refer this to learn more about Markdown syntax)
-[//]: # (https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
