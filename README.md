@@ -20,6 +20,53 @@ When considering the problems in this field we found some of the major things.
 -its give poor user experience
 ## solutions
 we are suggesting a web application integrated with a machine learning framework and statistical methods.it can help user they can analyze their microbiome data without any machine learning knowledge because our software proving the GUI for doing such things
+
+## Prerequist Tecgnolgies To Run this Application
+- Docker
+- Docker-Compose
+
+## Installation
+
+
+### Development level
+
+```
+
+//Build the new image and spin up the two containers.(only after content changed in requirments.txt or docker-relatedfiles)
+//creating new containers.
+docker-compose up -d --build
+
+//Run an existing containers
+docker-compose up 
+
+//now app will be run on https://localhost:8000
+
+```
+### Production level
+
+```
+
+//spin down the development containers
+docker-compose down -v
+
+
+//Build the new image and spin up the two containers.(only after content changed in requirments.txt or docker-relatedfiles)
+//creating new containers.
+docker-compose -f docker-compose.prod.yml up -d --build
+
+//Eun migration
+docker-compose exec web python manage.py migrate --noinput
+
+//regenerate staticfiles:
+docker-compose exec web python manage.py collectstatic --no-input --clear
+
+//Run an existing containers
+docker-compose -f docker-compose.prod.yml up 
+
+//now app will be run on https://localhost:1337
+
+```
+
 ## Team
 -  E/17/292, Rilwan M,  [e17292@eng.pdn.ac.lk](mailto:e17292@eng.pdn.ac.lk)
 -  E/17/256, Piriyaraj S, [e17256@eng.pdn.ac.lk](mailto:e17256@eng.pdn.ac.lk)
