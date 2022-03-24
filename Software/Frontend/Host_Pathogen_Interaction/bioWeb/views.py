@@ -71,11 +71,13 @@ def csvView(request,id):
         try:
             id = request.FILES
             myfile = request.FILES['myfile']
+            fileType = request.POST.get('filetype')
+            print(fileType)
             df = pd.read_csv(myfile,sep="\t")
             df.to_csv("bioWeb/csvFiles/"+myfile.name.split(".")[0]+".csv", sep=',')
             collectionInstance=Collection.objects.get(id=collectionNo)
             newFile = CSVFile(fileName=myfile.name.split(
-                ".")[0], collectionId=collectionInstance, csvFile="bioWeb/csvFiles/"+myfile.name.split(".")[0]+".csv")
+                ".")[0], collectionId=collectionInstance, csvFile="bioWeb/csvFiles/"+myfile.name.split(".")[0]+".csv",fileType=fileType)
             newFile.save()
             return redirect(url)
         except:
@@ -130,7 +132,8 @@ def readCSV(request,id):
                 "csvfiledata": data,
                 'tablesHead': tablesHead,
                 'maxRow': df.shape[0]-1,
-                'totalRows': df.shape[0]
+                'totalRows': df.shape[0],
+                "CSVid":id
             }
             return render(request, 'bioweb/readcsv.html',context)
         if(df.shape[0]>100):
@@ -143,17 +146,20 @@ def readCSV(request,id):
             'tablesHead': tablesHead,
             'totalRows': df.shape[0],
             'maxRow': df.shape[0]-1,
+            "CSVid": id
+
         }
         return render(request, 'bioweb/readcsv.html', context)
     return redirect(request.META.get('HTTP_REFERER'))
 
 
 def sortcsv(request):
+    id = request.META.get('HTTP_REFERER').split('/')[-1]
     start = request.POST.get('startRow')
     end = request.POST.get("endRow")
     import datetime
     print(datetime.datetime.now())
-    return render(request,'bioweb/elements/csvreadsort.html',{"time":datetime.datetime.now()})
+    return render(request,'bioweb/elements/csvreadsort.html',{"time":datetime.datetime.now(),"CSVid":id})
 
 
 def selectedrow(request):
@@ -198,7 +204,7 @@ def summa(request):
 
 # data visualizer
 
-def visualizer(request):
+def visualizer1(request):
     id = request.META.get('HTTP_REFERER').split('/')[-1]
     csvFile=CSVFile.objects.get(id=id)
     coll = csvFile.collectionId
@@ -238,5 +244,90 @@ def visualizer(request):
         }
         return render(request,'bioweb/visualizer.html',data)
 
+
+def getBoxChartValue(microName,featureCSVFile, labelCSVFile):
+    print(featureCSVFile, labelCSVFile)
+    
+
+    feature_data = pd.read_csv(featureCSVFile)
+    lable_data = pd.read_csv(labelCSVFile)
+
+    row = feature_data['Unnamed: 0'].tolist().index(microName)
+    featureSelectedMicro = feature_data.iloc[row]
+    # concatannated_data = pd.concat(
+    #     [feature_data.iloc[2], lable_data.iloc[1]], axis=1)
+    featureSelectedMicro = featureSelectedMicro.to_frame()
+    featureSelectedMicro["result"] = ["NaN"]+list(lable_data.iloc[1])
+
+    pos = featureSelectedMicro.loc[featureSelectedMicro['result'] == '1', [True, False]]
+    neg = featureSelectedMicro.loc[featureSelectedMicro['result'] == '-1', [True, False]]
+    return list(pos[row]), list(neg[row])
+    pass
+def visualizer(request,id):
+    print("Visuvalizer funtion called")
+    csvFile=CSVFile.objects.get(id=id)
+
+    coll = csvFile.collectionId
+    csvFiles = CSVFile.objects.filter(collectionId=coll)
+    for csv in csvFiles:
+        if(csv.fileType=='Feature'):
+            featureCSVFile = csv.csvFile
+        elif(csv.fileType == 'Label'):
+            labelCSVFile = csv.csvFile
+    yAxis = request.POST.get("yaxis", "UNMAPPED")
+
+    posValue, negValue = getBoxChartValue(yAxis, featureCSVFile, labelCSVFile)
+    # print(posValue,"\n\n",negValue)
+    csvFileName = csvFile.csvFile
+    df = pd.read_csv(csvFileName)
+    userIdformColl=Collection.objects.get(id=coll.id).userId.id
+    # print(list(df[['Unnamed: 0']]))
+
+    data={
+        "tablesHead":df['Unnamed: 0'].tolist(),
+        # "tablesHead":[1,2,4],
+        "charttype":"boxplot",
+        "posValue": posValue,
+        "negValue": negValue,
+        'label':[1],
+        'csvId':id
+    }
+    return render(request,'bioweb/boxchart.html',data)
+
 def profile(request):
     return render(request,'bioweb/profile.html')
+
+
+# htmx functions
+def boxchart(request,id):
+    print("box chart sort call akkuthu")
+    csvFile = CSVFile.objects.get(id=id)
+
+    coll = csvFile.collectionId
+    csvFiles = CSVFile.objects.filter(collectionId=coll)
+    for csv in csvFiles:
+        if(csv.fileType == 'Feature'):
+            featureCSVFile = csv.csvFile
+        elif(csv.fileType == 'Label'):
+            labelCSVFile = csv.csvFile
+    try:
+        yAxis = request.POST.get("yaxis")
+    except:
+        yAxis = ''
+    posValue, negValue = getBoxChartValue(yAxis, featureCSVFile, labelCSVFile)
+
+    csvFileName = csvFile.csvFile
+    df = pd.read_csv(csvFileName)
+    userIdformColl = Collection.objects.get(id=coll.id).userId.id
+    # print(list(df[['Unnamed: 0']]))
+
+    print(yAxis)
+    data = {
+        "tablesHead": df['Unnamed: 0'].tolist(),
+        # "tablesHead":[1,2,4],
+        "charttype": "boxplot",
+        "posValue": posValue,
+        "negValue": negValue,
+        'label': [1],
+    }
+    return render(request,'bioweb/elements/boxchart.html',data)

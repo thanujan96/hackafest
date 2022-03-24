@@ -7,18 +7,18 @@
                     <tr>
                         <td>
                             <span style="padding-right: 40px;padding-left:15px">Start</span>
-                            <span>End</span>
-                            <div>
-                                <span>
+<span>End</span>
+<div>
+    <span>
                                     <input type="number" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" name="startRow" min="0" id="sortmininput" style="width: 70px;" required value="0" onchange="document.getElementById('sortmaxinput').setAttribute('min',document.getElementById('sortmininput').value);">
                                 </span>
-                                <span>
+    <span>
                                     <input hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" type="number" id="sortmaxinput" name="endRow" min="0" max={{maxRow}} id="" style="width: 70px;" required value={{maxRow}}>
                                 </span>
-                            </div>
-                        </td>
-                        <td>
-                            <span>
+</div>
+</td>
+<td>
+    <span>
                                 <select name="sortview" id="tablehead" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change">
                                     <option value="None">Selcet</option>
                                     {% for i in tablesHead%}
@@ -26,17 +26,19 @@
                                     {% endfor %}
                                 </select>
                             </span>
-                        </td>
-                        <td>
-                            rows : <input type="number" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" name="noOfRow" min="0" max="{{maxRow}}" id="sortmininput" style="width: 70px;" required value="0">
-                        </td>
-                        <td>
-                            <div class="mybtn btn btn-info " id="dataview" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="click" onclick="document.getElementById('viewarea').style.display='block'">visualize</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>
+</td>
+<td>
+    rows : <input type="number" hx-post="/selectedrow/" hx-target="#csvfileviewer" hx-trigger="change" name="noOfRow" min="0" max="{{maxRow}}" id="sortmininput" style="width: 70px;" required value="0">
+</td>
+<td>
+    <!-- <div class="mybtn btn btn-info " id="dataview" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="click" onclick="document.getElementById('viewarea').style.display='block'"> -->
+    visualize</div>
+    <div class="mybtn btn btn-info " id="dataview"><a href="/visualizer/{{CSVid}}"> visualize</a></div>
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+</div>
 </span>
 <br>

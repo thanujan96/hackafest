@@ -14,3 +14,4 @@ class CSVFile(models.Model):
     collectionId = models.ForeignKey(Collection, on_delete=models.CASCADE)
     fileName = models.CharField(max_length=30)
     csvFile = models.FileField(upload_to="bioWeb/csvFiles")
+    fileType=models.CharField(max_length=20)

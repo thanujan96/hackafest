@@ -17,3 +17,4 @@ class GroupsForm(forms.Form):
 class CSVFileFrom(forms.Form):
     groupName = forms.CharField(max_length=30)
     csvfile = forms.FileField(widget=forms.FileInput(attrs={"accept": ".csv"}))
+    fileType=forms.FileField(max_length=20)
