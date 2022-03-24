@@ -1,0 +1,42 @@
+        <canvas id="myChart" width="800" height="400"></canvas>
+        <script>
+          var ctx = document.getElementById('myChart').getContext('2d');
+          ctx.width  = 800;
+          ctx.height = 600;
+          var myChart = new Chart(ctx, {
+              type: '{{charttype}}',
+              title:"hello",
+              data: {
+                  labels: [{{label|safe}}],
+                  datasets: [{
+                      label: 'Healthy',
+                      backgroundColor: 'rgb(11,218,81)',
+                      borderColor: 'red',
+                      borderWidth: 1,
+                      outlierColor: '#999999',
+                      padding: 10,
+                      itemRadius: 0,
+                      data: [{{posValue}}]
+                  }, {
+                      label: 'Unhealthy',
+                      backgroundColor:  '#FF0044',
+                      borderColor: 'blue',
+                      borderWidth: 1,
+                      outlierColor: '#999999',
+                      padding: 10,
+                      itemRadius: 0,
+                      
+                      data: [
+                          {{negValue}}
+                      ]
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      </script>

@@ -32,7 +32,14 @@ urlpatterns = [
     path("sortcsv", views.sortcsv, name="SortCsv"),
     path("selectedrow/", views.selectedrow, name="selectedrow"),
     path("summa/", views.summa, name="summa"),
-    path("visualizer/", views.visualizer, name="visualizer"),
+    path("visualizer/<id>", views.visualizer, name="visualizer"),
     path("profile/", views.profile, name="Profile"),
 
 ]
+
+
+htmxUrl=[
+    path("boxchart/<id>",views.boxchart,name="BoxChart")
+]
+
+urlpatterns+=htmxUrl
