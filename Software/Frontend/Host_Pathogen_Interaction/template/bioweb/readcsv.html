@@ -9,7 +9,7 @@
             {% include './elements/sidebar.html' %}
         <div class="container">
             <div class="row">
-                {% include './elements/csvreadsort.html' with maxRow=maxRow %}
+                {% include './elements/csvreadsort.html' with maxRow=maxRow CSVid=CSVid %}
             </div>
             <div class"row">Total rows:{{totalRows}}</div>
             <div class="row">
