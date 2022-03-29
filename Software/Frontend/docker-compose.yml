@@ -1,0 +1,33 @@
+version: "3.9"
+   
+services:
+  # db:
+  #   image: nouchka/sqlite3:latest
+
+  web:
+    build:
+      context: ./Host_Pathogen_Interaction
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000 
+    volumes:
+      - ./Host_Pathogen_Interaction:/usr/src/Host_Pathogen_Interaction
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SUPERUSER_EMAIL=thanujan96@gmail.com
+      - DJANGO_SUPERUSER_PASSWORD=secret1
+      - DJANGO_SUPERUSER_USERNAME=admin 
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:13.4-buster
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+volumes:
+  postgres_data:    

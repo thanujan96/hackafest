@@ -6,9 +6,15 @@
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" accept=".csv" id="fileToUpload" class="mybtn btn btn-info " name="myfile"><br>
+                <select name="filetype" class="form-select" aria-label="Default select example" required>
+                    <option value="">Type</option>
+                    <option value="Feature">Feature</option>
+                    <option value="Label">Label</option>
+                    <option value="Meta">Meta</option>
+                </select>
+            <input type="file" accept=".csv,.tsv" id="fileToUpload" class="mybtn btn btn-info " name="myfile"><br>
             <button type="submit" class="mybtn btn btn-info " width="100%">Upload</button>
-            <div class="support">Supports: CSV</div>
+            <div class="support">Supports: CSV,TSV</div>
 
 
         </form>

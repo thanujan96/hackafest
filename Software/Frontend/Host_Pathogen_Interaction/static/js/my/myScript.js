@@ -140,12 +140,12 @@ function collectionEdit(collectionId) {
 
 function collectionAdd(collectionId) {
     const buttonText = document.getElementById("colleditbutton" + collectionId).innerHTML;
-    if (buttonText == "New Collection") {
+    if (buttonText == "New Experiment") {
         document.getElementById("colleditbutton" + collectionId).innerHTML = "Cancel"
         document.getElementById("editcollection" + collectionId).style.display = 'inline-grid';
         document.getElementById("collname" + collectionId).style.display = 'none';
     } else {
-        document.getElementById("colleditbutton" + collectionId).innerHTML = "New Collection"
+        document.getElementById("colleditbutton" + collectionId).innerHTML = "New Experiment"
         document.getElementById("editcollection" + collectionId).style.display = 'none';
         document.getElementById("collname" + collectionId).style.display = 'block';
     }
