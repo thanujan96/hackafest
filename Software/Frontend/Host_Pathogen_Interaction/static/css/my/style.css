@@ -7,6 +7,7 @@
 }
 
 .uploadSection {
+    margin: 16px;
     display: -webkit-inline-box;
     height: fit-content;
     align-items: center;
@@ -38,7 +39,7 @@ h3 {
 
 .drag-area .icon {
     font-size: 50px;
-    color: #1683ff;
+    color: #08935d;
 }
 
 .drag-area .header {
@@ -58,7 +59,7 @@ h3 {
     overflow: scroll;
     font-size: 20px;
     font-weight: 500;
-    color: #1683ff;
+    color: black;
     cursor: pointer;
 }
 
@@ -189,7 +190,7 @@ tbody {
 }
 
 .dataframe>thead {
-    background-color: #52CDFF;
+    background-color: #44B788;
     color: white;
 }
 
@@ -209,3 +210,42 @@ tbody {
 ::-webkit-scrollbar {
     display: none;
 }
+.btn-primary{
+    background: #44B78B !important;
+}
+.navbar .navbar-menu-wrapper{
+    background: #0C3C26 !important;
+}
+.bg-light{
+    --bs-bg-opacity: 0 !important;
+}
+
+.navbar .navbar-brand-wrapper {
+    background: #0C3C26 !important;
+}
+/* .navbar{
+    background: #0C3C26 !important;
+} */
+.btn-info{
+    background: #44B78B !important;
+}
+.navbar .navbar-brand-wrapper .navbar-brand{
+    color: white !important;
+}
+
+.sidebar{
+    background: #edfff8 !important;
+    color: white !important;
+}
+.icon-menu{
+    color: white;
+}
+.sortingtable{
+    background-color:#edfff8 ;
+    border: 1px solid #0C3C26;
+    padding: 30px;
+}
+.sortingtable>tbody>tr>td{
+    padding: 5px 70px;
+}
+.dataframe>tbody>tr:nth-child(even) {background-color: #dbeed5;}
