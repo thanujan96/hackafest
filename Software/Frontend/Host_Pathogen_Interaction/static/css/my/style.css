@@ -158,7 +158,9 @@ th {
 /* view area */
 
 #myChart {
-    background-color: rgb(248, 240, 240);
+    background-color: #dbeed5;
+    border-radius: 10px;
+    border: 2px solid rgb(130, 226, 130);
 }
 
 #viewarea {
@@ -210,42 +212,55 @@ tbody {
 ::-webkit-scrollbar {
     display: none;
 }
-.btn-primary{
+
+.btn-primary {
     background: #44B78B !important;
 }
-.navbar .navbar-menu-wrapper{
+
+.navbar .navbar-menu-wrapper {
     background: #0C3C26 !important;
 }
-.bg-light{
+
+.bg-light {
     --bs-bg-opacity: 0 !important;
 }
 
 .navbar .navbar-brand-wrapper {
     background: #0C3C26 !important;
 }
+
+
 /* .navbar{
     background: #0C3C26 !important;
 } */
-.btn-info{
+
+.btn-info {
     background: #44B78B !important;
 }
-.navbar .navbar-brand-wrapper .navbar-brand{
+
+.navbar .navbar-brand-wrapper .navbar-brand {
     color: white !important;
 }
 
-.sidebar{
+.sidebar {
     background: #edfff8 !important;
     color: white !important;
 }
-.icon-menu{
+
+.icon-menu {
     color: white;
 }
-.sortingtable{
-    background-color:#edfff8 ;
+
+.sortingtable {
+    background-color: #edfff8;
     border: 1px solid #0C3C26;
     padding: 30px;
 }
-.sortingtable>tbody>tr>td{
+
+.sortingtable>tbody>tr>td {
     padding: 5px 70px;
 }
-.dataframe>tbody>tr:nth-child(even) {background-color: #dbeed5;}
+
+.dataframe>tbody>tr:nth-child(even) {
+    background-color: #dbeed5;
+}

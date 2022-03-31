@@ -8,7 +8,7 @@ from .forms import CreateUserForm
 from .models import Collection
 from .models import CSVFile
 import pandas as pd
-
+from sklearn.preprocessing import MinMaxScaler
 # Create your views here.
 def index(request):
     return render(request,'bioweb/indexnew.html')
@@ -261,7 +261,22 @@ def getBoxChartValue(microName,featureCSVFile, labelCSVFile):
 
     pos = featureSelectedMicro.loc[featureSelectedMicro['result'] == '1', [True, False]]
     neg = featureSelectedMicro.loc[featureSelectedMicro['result'] == '-1', [True, False]]
-    return list(pos[row]), list(neg[row])
+    # print(pos)
+    mi=0
+    ma=0.1
+    pos = list(pos[row])
+    neg =list(neg[row])
+    rangeOfPosList = max(pos)-min(pos)
+    rangeOfNegList = max(neg)-min(neg)
+    if(rangeOfPosList==0):
+        rangeOfPosList=1
+    if(rangeOfNegList==0):
+        rangeOfNegList = 1
+    pos = [t*((ma-mi)/rangeOfPosList) for t in pos]
+    neg = [t*((ma-mi)/rangeOfNegList) for t in neg]
+    # print(pos)
+
+    return pos, neg
     pass
 def visualizer(request,id):
     print("Visuvalizer funtion called")

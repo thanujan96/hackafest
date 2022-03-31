@@ -1,6 +1,6 @@
-import pandas as pd
+x=[1,2,3,4,5,6,7,8,9,10,100]
+mi=5
+ma=15
 
-feature_data = pd.read_csv("./feat_crc_zeller_msb_mocat_specI.csv")
-lable_data = pd.read_csv("./label_crc_zeller_msb_mocat_specI.csv")
-
-print(feature_data['Unnamed: 0'].tolist().index("UNMAPPED"))
+y = [mi+t*((ma-mi)/(max(x)-min(x))) for t in x]
+print(y)

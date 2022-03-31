@@ -4,73 +4,76 @@
   <!-- partial -->
   <div class="container-fluid page-body-wrapper">
     <!-- partial:partials/_settings-panel.html -->
-    {% include './elements/settings.html' %}
-    {% if user.is_authenticated %}
+    {% include './elements/settings.html' %} {% if user.is_authenticated %}
     {%include './elements/sidebar.html' %}
-    <div class="container">
-        <div class="row" id="viewarea">
-            <form method="POST" action="/visualizer/{{csvId}}">
-                {% csrf_token %}
-                <select name="yaxis" id="tablehead" onchange="this.form.submit()">
-                    <option value="None">Selcet-y</option>
-                    {% for i in tablesHead%}
-                    <option value="{{i}}">{{i}}</option>
-                    {% endfor %}
-                </select>
-            </form>
-            <div id="chartview"></div>
+    <div class="container" style="margin-top: 20px">
+      <div class="row" id="viewarea">
+        <br />
+        <form method="POST" action="/visualizer/{{csvId}}">
+          {% csrf_token %}
+          <select name="yaxis" id="tablehead" onchange="this.form.submit()">
+            <option value="None">Selcet-y</option>
+            {% for i in tablesHead%}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+          </select>
+        </form>
+        <div id="chartview"></div>
 
-            {% comment %} {% include './elements/visualizer.html' with data=data %} {% endcomment %}
-        </div>
-      <div id="boxchart" class="row"> 
-        <canvas id="myChart" width="800" height="400"></canvas>
-        <script>
-          var ctx = document.getElementById('myChart').getContext('2d');
-          ctx.width  = 800;
-          ctx.height = 600;
-          var myChart = new Chart(ctx, {
-              type: '{{charttype}}',
-              title:"hello",
-              data: {
-                  labels: [{{label|safe}}],
-                  datasets: [{
-                      label: 'Healthy',
-                      backgroundColor: 'rgb(11,218,81)',
-                      borderColor: 'red',
-                      borderWidth: 1,
-                      outlierColor: '#999999',
-                      padding: 10,
-                      itemRadius: 0,
-                      data: [{{posValue}}]
-                  }, {
-                      label: 'Unhealthy',
-                      backgroundColor:  '#FF0044',
-                      borderColor: 'blue',
-                      borderWidth: 1,
-                      outlierColor: '#999999',
-                      padding: 10,
-                      itemRadius: 0,
-                      
-                      data: [
-                          {{negValue}}
-                      ]
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
-      </script>
-    </div>
-    {% endif %}
-  </div>
-  <!-- page-body-wrapper ends -->
-</div>
+        {% comment %} {% include './elements/visualizer.html' with data=data %}
+        {% endcomment %}
       </div>
+      <div class="col-11" style="padding:10px 100px">
+        <div id="boxchart" class="row">
+          <canvas id="myChart" width="700" height="390"></canvas>
+          <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            ctx.width  = 800;
+            ctx.height = 600;
+            var myChart = new Chart(ctx, {
+                type: '{{charttype}}',
+                title:"hello",
+                data: {
+                    labels: [{{label|safe}}],
+                    datasets: [{
+                        label: 'Healthy',
+                        backgroundColor: 'rgb(11,218,81)',
+                        borderColor: 'red',
+                        borderWidth: 1,
+                        outlierColor: '#dbeed5',
+                        padding: 10,
+                        itemRadius: 0,
+                        data: [{{posValue}}]
+                    }, {
+                        label: 'Unhealthy',
+                        backgroundColor:  '#FF0044',
+                        borderColor: 'blue',
+                        borderWidth: 1,
+                        outlierColor: '#dbeed5',
+                        padding: 10,
+                        itemRadius: 0,
+
+                        data: [
+                            {{negValue}}
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+          </script>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+</div>
 
 <!-- container-scroller -->
 {% include './elements/footer.html' %}
