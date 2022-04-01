@@ -34,6 +34,7 @@ urlpatterns = [
     path("summa/", views.summa, name="summa"),
     path("visualizer/<id>", views.visualizer, name="visualizer"),
     path("profile/", views.profile, name="Profile"),
+    path("filterform/",views.filterform,name="FilterForm"),
 
 ]
 

@@ -8,6 +8,7 @@
         {% if user.is_authenticated %}
             {% include './elements/sidebar.html' %}
         <div class="container">
+            <div class="row workflow">{% include './elements/mlworkflow.html'%}</div>
             <div class="row">
                 {% include './elements/csvreadsort.html' with maxRow=maxRow CSVid=CSVid %}
             </div>

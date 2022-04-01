@@ -4,6 +4,8 @@ from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+
+from bioWeb.mlModelClass import MlModelClass
 from .forms import CreateUserForm
 from .models import Collection
 from .models import CSVFile
@@ -105,8 +107,9 @@ def csvDelete(request, id):
     csv.delete()
     return redirect(url)
 
-
+from .mlModelClass import MlModelClass
 def readCSV(request,id):
+    global feature
     print("readCSV call aakuthu")
     try:
         csvFile=CSVFile.objects.get(id=id)
@@ -117,6 +120,8 @@ def readCSV(request,id):
     if(request.user.id==userIdformColl):
         csvFileName = csvFile.csvFile
         df = pd.read_csv(csvFileName)
+        # print(df)
+        feature=MlModelClass(df)
         tablesHead = df.columns
         if(request.method == "POST" and request.POST.get("csvsort") == "Filter"):
             endRow = int(request.POST.get("endRow"))
@@ -346,3 +351,14 @@ def boxchart(request,id):
         'label': [1],
     }
     return render(request,'bioweb/elements/boxchart.html',data)
+
+def filterform(request):
+    filterType = request.POST.get("filtertype")
+    cutOff=request.POST.get("cutoff")
+    filterdDf = feature.filter(filterMethod=filterType, cutOff=float(cutOff))
+    data = filterdDf.to_html()
+    context = {
+        "csvfiledata": data,
+    }
+    print(filterType,cutOff)
+    return render(request, 'bioweb/elements/csvfileviewer.html', context)
