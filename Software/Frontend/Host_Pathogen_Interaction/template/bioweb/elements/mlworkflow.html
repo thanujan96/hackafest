@@ -22,9 +22,12 @@
             <input name="cutoff" name="cutoff" class="form-control" placeholder="cut off value" style="height: 30px;margin:5px"></input>
             <span style="display: inline-flex;">
                 <button id="btn_closed" type="submit" class="btn btn-success" style="margin-right:5px">Submit</button>
-                <button type="button" class="btn btn-success" style="margin-right:5px" onclick="filterclose()">close</button>
-            </span>
+                <button type="button" class="btn btn-danger" style="margin-right:5px" onclick="filterclose()">close</button>
+            </span><br/>
         </form>
-
+        <form>
+            {% csrf_token %}
+            <input hx-post="/restfilter/" hx-target="#csvfileviewer" hx-trigger='click' style="margin-top:5px" class="btn btn-primary" type="button" value="Reset">
+        <form>
     </div>
 </div>

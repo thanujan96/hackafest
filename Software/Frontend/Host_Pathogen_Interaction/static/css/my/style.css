@@ -294,8 +294,20 @@ tbody {
     border: 1px solid red;
     width: fit-content;
     padding: 10px;
-    height: 150px;
+    height: 180px;
     background-color: gainsboro;
     margin-left: 50px;
     text-align-last: center;
+}
+
+.filetype {
+    position: absolute;
+    background-color: #34b1aa;
+    padding: 2px;
+    border: 1px solid #93ed93;
+    border-radius: 10px;
+    margin: -23px;
+    width: 80px;
+    color: white;
+    text-align: center;
 }
