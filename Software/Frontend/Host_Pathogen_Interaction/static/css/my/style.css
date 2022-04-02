@@ -4,9 +4,11 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    z-index: 0;
 }
 
 .uploadSection {
+    margin: 16px;
     display: -webkit-inline-box;
     height: fit-content;
     align-items: center;
@@ -38,7 +40,7 @@ h3 {
 
 .drag-area .icon {
     font-size: 50px;
-    color: #1683ff;
+    color: #08935d;
 }
 
 .drag-area .header {
@@ -58,7 +60,7 @@ h3 {
     overflow: scroll;
     font-size: 20px;
     font-weight: 500;
-    color: #1683ff;
+    color: black;
     cursor: pointer;
 }
 
@@ -157,7 +159,9 @@ th {
 /* view area */
 
 #myChart {
-    background-color: rgb(248, 240, 240);
+    background-color: #dbeed5;
+    border-radius: 10px;
+    border: 2px solid rgb(130, 226, 130);
 }
 
 #viewarea {
@@ -189,7 +193,7 @@ tbody {
 }
 
 .dataframe>thead {
-    background-color: #52CDFF;
+    background-color: #44B788;
     color: white;
 }
 
@@ -208,4 +212,102 @@ tbody {
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+.btn-primary {
+    background: #44B78B !important;
+}
+
+.navbar .navbar-menu-wrapper {
+    background: #0C3C26 !important;
+}
+
+.bg-light {
+    --bs-bg-opacity: 0 !important;
+}
+
+.navbar .navbar-brand-wrapper {
+    background: #0C3C26 !important;
+}
+
+
+/* .navbar{
+    background: #0C3C26 !important;
+} */
+
+.btn-info {
+    background: #44B78B !important;
+}
+
+.navbar .navbar-brand-wrapper .navbar-brand {
+    color: white !important;
+}
+
+.sidebar {
+    background: #edfff8 !important;
+    color: white !important;
+}
+
+.icon-menu {
+    color: white;
+}
+
+.sortingtable {
+    background-color: #edfff8;
+    border: 1px solid #0C3C26;
+    padding: 30px;
+}
+
+.sortingtable>tbody>tr>td {
+    padding: 5px 70px;
+}
+
+.dataframe>tbody>tr:nth-child(even) {
+    background-color: #dbeed5;
+}
+
+.workflow>div>.process {
+    border: 1px solid green;
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    background-color: rgb(109, 163, 142);
+    border-radius: 50%;
+    /* margin-right: 150px; */
+    z-index: 1;
+}
+
+.workflow>div>.path {
+    /* width: 10px; */
+    border: 1px solid;
+    height: 2px;
+    align-self: center;
+}
+
+.workflow>div>.active {
+    background-color: rgb(0, 255, 200);
+}
+
+#filterform {
+    border: 1px solid red;
+    width: fit-content;
+    padding: 10px;
+    height: 180px;
+    background-color: gainsboro;
+    margin-left: 50px;
+    text-align-last: center;
+}
+
+.filetype {
+    position: absolute;
+    background-color: #34b1aa;
+    padding: 2px;
+    border: 1px solid #93ed93;
+    border-radius: 10px;
+    margin: -23px;
+    width: 80px;
+    color: white;
+    text-align: center;
 }
