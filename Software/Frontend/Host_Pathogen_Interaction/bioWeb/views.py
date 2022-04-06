@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from bioWeb.mlModelClass import MlModelClass
 from django.contrib.auth import login
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UpdateUserForm
 from .models import Collection, User
 from .models import CSVFile
 import pandas as pd
@@ -29,6 +29,32 @@ def register(request):
         messages.error(request, form.errors)
     form = CreateUserForm()
     return render(request, "bioweb/register.html", {"form": form})
+
+
+def profile(request):
+    if request.method == "POST":
+        form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Your profile has been updated !")
+            return redirect("/profile")
+        messages.error(request, form.errors)
+    form = UpdateUserForm(instance=request.user)
+    return render(request, "bioweb/profile.html", {"form": form})
+
+
+def profile(request):
+    if request.method == "POST":
+        form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Your profile has been updated !")
+            return redirect("/profile")
+        messages.error(request, form.errors)
+    form = UpdateUserForm(instance=request.user)
+    return render(request, "bioweb/profile.html", {"form": form})
 
 
 def collections(request):
@@ -303,10 +329,6 @@ def visualizer(request, id):
         "csvId": id,
     }
     return render(request, "bioweb/boxchart.html", data)
-
-
-def profile(request):
-    return render(request, "bioweb/profile.html")
 
 
 # htmx functions

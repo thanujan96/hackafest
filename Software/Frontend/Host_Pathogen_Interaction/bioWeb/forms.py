@@ -3,7 +3,7 @@ import email
 from enum import unique
 from django import forms
 from .models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.validators import RegexValidator
 
 
@@ -66,6 +66,27 @@ class CreateUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class UpdateUserForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = User
+        fields = [
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "dob",
+            "address",
+            "thumb",
+        ]
+        widgets = {
+            "address": forms.Textarea(attrs={"rows": 3}),
+            "username": forms.TextInput(attrs={"readonly": "readonly"}),
+            "email": forms.TextInput(attrs={"readonly": "readonly"}),
+        }
 
 
 class GroupsForm(forms.Form):

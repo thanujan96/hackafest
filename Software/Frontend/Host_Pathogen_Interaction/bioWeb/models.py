@@ -53,7 +53,6 @@ class User(AbstractUser, ResizeImageMixin):
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.resize(self.thumb, (200, 200))
-
         super().save(*args, **kwargs)
 
 

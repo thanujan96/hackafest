@@ -1,16 +1,16 @@
-{% load static %}{% include './elements/header.html' %}
+{% load static %}{% include './elements/header.html' %}{% load crispy_forms_tags %}
 <div class="container-scroller">
     {% include './elements/navbar.html' %}
     <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper ">
         <!-- partial:partials/_settings-panel.html -->
         {% include './elements/settings.html' %}
 
         <!-- partial -->
         <!-- partial:partials/_sidebar.html -->
         {% if user.is_authenticated %}
-            {% include './elements/sidebar.html' %}
-            <div>
+        {% include './elements/sidebar.html' %}
+            <!-- <div>
                  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
             <div>
                 <button class="btn btn-secondary text-dark mr-2 dropdown-toggle" data-toggle="dropdown"
@@ -56,7 +56,7 @@
                                 <div>
                                     <label for="first_name">First Name</label>
                                     <input name="first_name" class="form-control" id="first_name" type="text"
-                                           placeholder="Enter your first name" value="{{ profile.user.first_name }}"
+                                           placeholder="Enter your first name" value="{{ user.first_name }}"
                                            required>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                 <div>
                                     <label for="last_name">Last Name</label>
                                     <input name="last_name" class="form-control" id="last_name" type="text"
-                                           placeholder="Also your last name" value="{{ profile.user.last_name }}"
+                                           placeholder="Also your last name" value="{{ user.last_name }}"
                                            required>
                                 </div>
                             </div>
@@ -75,67 +75,26 @@
                                 <div class="input-group">
                                     <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
                                     <input name="birthday" data-datepicker="" class="form-control" id="birthday"
-                                           type="text" placeholder="dd/mm/yyyy" value="{{ profile.birthday|date:'m/d/Y'|default:'' }}" required>
+                                           type="text" placeholder="dd/mm/yyyy" value="{{ user.dob|date:'m/d/Y'|default:'' }}" required>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="gender">Gender</label>
-                                <select name="gender" class="form-select mb-0" id="gender"
-                                        aria-label="Gender select example">
-                                    <option selected>Gender</option>
-                                    {% for key, value in profile.GENDER_CHOICES %}
-                                        <option value="{{ key }}"
-                                                {% if profile.gender == key %}selected{% endif %}>{{ value }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input name="email" class="form-control" id="email" type="email"
-                                           placeholder="name@company.com" value="{{ profile.user.email }}" readonly>
+                                           placeholder="name@company.com" value="{{ user.email }}" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input name="phone" class="form-control" id="phone" type="number"
-                                           placeholder="+12-345 678 910" value="{{ profile.phone }}" required>
-                                </div>
-                            </div>
+                           
                         </div>
+                        
                         <h2 class="h5 my-4">Address</h2>
                         <div class="row">
                             <div class="col-sm-9 mb-3">
                                 <div class="form-group">
                                     <label for="address">Address</label>
                                     <input name="address" class="form-control" id="address" type="text"
-                                           placeholder="Enter your home address" value="{{ profile.address|default:'' }}" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 mb-3">
-                                <div class="form-group">
-                                    <label for="number">Number</label>
-                                    <input name="number" class="form-control" id="number" type="number"
-                                           placeholder="No." value="{{ profile.number|default:'' }}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 mb-3">
-                                <div class="form-group">
-                                    <label for="city">City</label>
-                                    <input name="city" class="form-control" id="city" type="text" placeholder="City"
-                                           value="{{ profile.city|default:'' }}" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="zip">ZIP</label>
-                                    <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
-                                           value="{{ profile.zip|default:'' }}" required>
+                                           placeholder="Enter your home address" value="{{ user.address|default:'' }}" required>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +135,7 @@
                                                 <span class="icon icon-md">
                                                     <span class="fas fa-paperclip mr-3"></span>
                                                 </span>
-                                                <input name="avatar" type="file">
+                                                <input name="thumb" type="file">
                                                 <div class="d-md-block text-left">
                                                     <div class="font-weight-normal text-dark mb-1">Choose Image</div>
                                                     <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
@@ -192,7 +151,38 @@
             </div>
         </form>
 
+            </div> -->
+        
+        <!-- <div>
+            <div class="container d-flex align-items-center ">
+            
+                <div class="col-md-offset-4 col-md-4 well">
+                    <div class="row">
+                        <div class="col-4">
+                            user name
+                        </div>
+                        <div class="col-8">
+                            {{user.username}}
+                        </div>
+                    </div>
+                </div>
+                    
+                </div>
+        </div> -->
+
+        <div class="container d-flex align-items-center ">
+            
+            <div class="p-5 ">
+            <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                <h2 class="text-primary page-header text-start">Update your profile</h2>
+                {% csrf_token %} {{form|crispy}}
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
             </div>
+        </div>
+
         {% else %}
             {% include './intro.html' %}
         {% endif %}
