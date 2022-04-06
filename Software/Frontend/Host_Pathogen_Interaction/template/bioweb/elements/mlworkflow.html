@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-1 process active" data-toggle="tooltip" data-placement="top" title="original"></div>
+    <div class="col-1 path"></div>
+    <div class="col-1 process" data-toggle="tooltip" data-placement="top" title="filter" onclick="filterHandle()"></div>
+    <div class="col-1 path"></div>
+    <div class="col-1 process" data-toggle="tooltip" data-placement="top" title="normalized"></div>
+    <div class="col-1 path"></div>
+    <div class="col-1 process" data-toggle="tooltip" data-placement="top" title="Train"></div>
+</div>
+<div class="row">
+    <div id="filterform" style="display:none">
+        <form hx-post="/filterform/" hx-target="#csvfileviewer">
+            {% csrf_token %}
+            <select name="filtertype">
+                <option value="None">--filter method--</option>
+                <option value="abundance">Abundance</option>
+                <option value="variance">Variance</option>
+                <option value="cum.abundance">cum.abundance</option>
+                <option value="prevalence">prevalence</option>
+                <option value="pass">pass</option>
+            </select>
+            <input name="cutoff" name="cutoff" class="form-control" placeholder="cut off value" style="height: 30px;margin:5px"></input>
+            <span style="display: inline-flex;">
+                <button id="btn_closed" type="submit" class="btn btn-success" style="margin-right:5px">Submit</button>
+                <button type="button" class="btn btn-danger" style="margin-right:5px" onclick="filterclose()">close</button>
+            </span><br/>
+        </form>
+        <form>
+            {% csrf_token %}
+            <input hx-post="/restfilter/" hx-target="#csvfileviewer" hx-trigger='click' style="margin-top:5px" class="btn btn-primary" type="button" value="Reset">
+        <form>
+    </div>
+</div>

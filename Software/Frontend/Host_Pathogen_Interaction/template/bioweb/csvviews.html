@@ -13,7 +13,9 @@
             {% include './elements/csvupload.html' %}
         <div class="collectionview">
             {% for csv in csvviews%}
+            
             <div class="uploadSection">
+                <span class="filetype">{{csv.fileType}}</span>
                 <div class="drag-area">
                     <div class="icon">
                         <i class="fa fa-file-csv"></i>

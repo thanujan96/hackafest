@@ -39,7 +39,11 @@ urlpatterns = [
 
 
 htmxUrl=[
-    path("boxchart/<id>",views.boxchart,name="BoxChart")
+    path("boxchart/<id>",views.boxchart,name="BoxChart"),
+    path("filterform/", views.filterform, name="FilterForm"),
+    path("restfilter/", views.restfilter, name="restfilter"),
+
+
 ]
 
 urlpatterns+=htmxUrl

@@ -4,11 +4,13 @@ from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+
+from bioWeb.mlModelClass import MlModelClass
 from .forms import CreateUserForm
 from .models import Collection
 from .models import CSVFile
 import pandas as pd
-
+from sklearn.preprocessing import MinMaxScaler
 # Create your views here.
 def index(request):
     return render(request,'bioweb/indexnew.html')
@@ -91,7 +93,7 @@ def csvView(request,id):
     userIdFormColl = Collection.objects.get(id=collectionNo).userId
     if(str(request.user.username) == str(userIdFormColl)):
         csvfiles = CSVFile.objects.filter(collectionId=collectionNo)
-    # print(csvfiles[0].fileName)
+        print(csvfiles[0].id)
         return render(request, 'bioweb/csvviews.html', {"csvviews": csvfiles})
         pass
     return redirect('Collections')
@@ -105,18 +107,34 @@ def csvDelete(request, id):
     csv.delete()
     return redirect(url)
 
-
+from .mlModelClass import MlModelClass
+global feature
 def readCSV(request,id):
+    global feature
     print("readCSV call aakuthu")
     try:
         csvFile=CSVFile.objects.get(id=id)
     except:
         return redirect('/collections/')
     coll = csvFile.collectionId
+    csvFiles = CSVFile.objects.filter(collectionId=coll)
+    for csv in csvFiles:
+        if(csv.fileType == 'Feature'):
+            featureCSVFile = csv.csvFile
+            # featureDf=pd.read_csv(featureCSVFile)
+        elif(csv.fileType == 'Label'):
+            labelCSVFile = csv.csvFile
+            labelDf=pd.read_csv(labelCSVFile)
+        elif(csv.fileType=="Meta"):
+            metaCSVFile = csv.csvFile
+            metaDf = pd.read_csv(metaCSVFile)
+
     userIdformColl=Collection.objects.get(id=coll.id).userId.id
     if(request.user.id==userIdformColl):
         csvFileName = csvFile.csvFile
         df = pd.read_csv(csvFileName)
+        # print(df)
+        feature = MlModelClass(df, labelDf, metaDf)
         tablesHead = df.columns
         if(request.method == "POST" and request.POST.get("csvsort") == "Filter"):
             endRow = int(request.POST.get("endRow"))
@@ -261,30 +279,38 @@ def getBoxChartValue(microName,featureCSVFile, labelCSVFile):
 
     pos = featureSelectedMicro.loc[featureSelectedMicro['result'] == '1', [True, False]]
     neg = featureSelectedMicro.loc[featureSelectedMicro['result'] == '-1', [True, False]]
-    return list(pos[row]), list(neg[row])
+    # print(pos)
+    mi=0
+    ma=0.1
+    pos = list(pos[row])
+    neg =list(neg[row])
+    rangeOfPosList = max(pos)-min(pos)
+    rangeOfNegList = max(neg)-min(neg)
+    if(rangeOfPosList==0):
+        rangeOfPosList=1
+    if(rangeOfNegList==0):
+        rangeOfNegList = 1
+    pos = [t*((ma-mi)/rangeOfPosList) for t in pos]
+    neg = [t*((ma-mi)/rangeOfNegList) for t in neg]
+    # print(pos)
+
+    return pos, neg
     pass
 def visualizer(request,id):
+    global feature
     print("Visuvalizer funtion called")
-    csvFile=CSVFile.objects.get(id=id)
 
-    coll = csvFile.collectionId
-    csvFiles = CSVFile.objects.filter(collectionId=coll)
-    for csv in csvFiles:
-        if(csv.fileType=='Feature'):
-            featureCSVFile = csv.csvFile
-        elif(csv.fileType == 'Label'):
-            labelCSVFile = csv.csvFile
-    yAxis = request.POST.get("yaxis", "UNMAPPED")
+    yAxis = request.POST.get("yaxis", "None")
 
-    posValue, negValue = getBoxChartValue(yAxis, featureCSVFile, labelCSVFile)
+    posValue, negValue = feature.getBoxChartValue(yAxis)
     # print(posValue,"\n\n",negValue)
-    csvFileName = csvFile.csvFile
-    df = pd.read_csv(csvFileName)
-    userIdformColl=Collection.objects.get(id=coll.id).userId.id
+
+
+
     # print(list(df[['Unnamed: 0']]))
 
     data={
-        "tablesHead":df['Unnamed: 0'].tolist(),
+        "tablesHead":feature.featureDf['Unnamed: 0'].tolist(),
         # "tablesHead":[1,2,4],
         "charttype":"boxplot",
         "posValue": posValue,
@@ -323,7 +349,7 @@ def boxchart(request,id):
 
     print(yAxis)
     data = {
-        "tablesHead": df['Unnamed: 0'].tolist(),
+        "tablesHead": feature.featureDf['Unnamed: 0'].tolist(),
         # "tablesHead":[1,2,4],
         "charttype": "boxplot",
         "posValue": posValue,
@@ -331,3 +357,22 @@ def boxchart(request,id):
         'label': [1],
     }
     return render(request,'bioweb/elements/boxchart.html',data)
+
+def filterform(request):
+    filterType = request.POST.get("filtertype","None")
+    cutOff=request.POST.get("cutoff",0)
+    filterdDf = feature.filter(filterMethod=filterType, cutOff=float(cutOff))
+    data = filterdDf.to_html()
+    context = {
+        "csvfiledata": data,
+    }
+    return render(request, 'bioweb/elements/csvfileviewer.html', context)
+
+
+def restfilter(request):
+    print("called rest fillter")
+    data = feature.originalFeatueDf.to_html()
+    context = {
+        "csvfiledata": data,
+    }
+    return render(request, 'bioweb/elements/csvfileviewer.html', context)

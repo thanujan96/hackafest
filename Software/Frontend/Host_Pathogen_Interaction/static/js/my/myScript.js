@@ -151,3 +151,16 @@ function collectionAdd(collectionId) {
     }
 
 }
+
+function filterHandle(){
+    var status = document.getElementById('filterform').style.display;
+    if(status=='none'){
+        document.getElementById('filterform').style.display = 'block';      
+    }
+
+}
+document.getElementById("btn_closed").addEventListener(click,filterclose);
+function filterclose(){
+    document.getElementById('filterform').style.display = 'none';      
+
+}
