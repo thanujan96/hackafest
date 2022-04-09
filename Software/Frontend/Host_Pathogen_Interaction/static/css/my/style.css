@@ -7,6 +7,7 @@
 }
 
 .uploadSection {
+    margin: 16px;
     display: -webkit-inline-box;
     height: fit-content;
     align-items: center;
@@ -38,7 +39,7 @@ h3 {
 
 .drag-area .icon {
     font-size: 50px;
-    color: #1683ff;
+    color: #08935d;
 }
 
 .drag-area .header {
@@ -54,9 +55,11 @@ h3 {
 }
 
 .drag-area .browsebutton {
+    width: 120px;
+    overflow: scroll;
     font-size: 20px;
     font-weight: 500;
-    color: #1683ff;
+    color: black;
     cursor: pointer;
 }
 
@@ -150,3 +153,99 @@ th {
     padding: 2px 5px;
     text-align: center !important;
 }
+
+
+/* view area */
+
+#myChart {
+    background-color: rgb(248, 240, 240);
+}
+
+#viewarea {
+    /* display: none; */
+    /* background-color: rgb(121, 81, 81); */
+    /*border: 1px solid #dfdfb9;
+    width: 60%;
+    height: 500px;
+    border: 2px solid #0a0a08;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3); */
+}
+
+.dataframe {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-top: 1px solid #000;
+}
+
+.dataframe>thead,
+tbody {
+    margin: 0;
+    /* border: 1px solid #000; */
+    white-space: nowrap;
+    border-top-width: 0px;
+}
+
+.dataframe>thead {
+    background-color: #44B788;
+    color: white;
+}
+
+#csvfileviewer {
+    /* width: 90%; */
+    overflow-x: scroll;
+    overflow-y: visible;
+    padding: 0;
+    height: fit-content;
+}
+
+
+/* td, th {
+
+} */
+
+::-webkit-scrollbar {
+    display: none;
+}
+.btn-primary{
+    background: #44B78B !important;
+}
+.navbar .navbar-menu-wrapper{
+    background: #0C3C26 !important;
+}
+.bg-light{
+    --bs-bg-opacity: 0 !important;
+}
+
+.navbar .navbar-brand-wrapper {
+    background: #0C3C26 !important;
+}
+/* .navbar{
+    background: #0C3C26 !important;
+} */
+.btn-info{
+    background: #44B78B !important;
+}
+.navbar .navbar-brand-wrapper .navbar-brand{
+    color: white !important;
+}
+
+.sidebar{
+    background: #edfff8 !important;
+    color: white !important;
+}
+.icon-menu{
+    color: white;
+}
+.sortingtable{
+    background-color:#edfff8 ;
+    border: 1px solid #0C3C26;
+    padding: 30px;
+}
+.sortingtable>tbody>tr>td{
+    padding: 5px 70px;
+}
+.dataframe>tbody>tr:nth-child(even) {background-color: #dbeed5;}

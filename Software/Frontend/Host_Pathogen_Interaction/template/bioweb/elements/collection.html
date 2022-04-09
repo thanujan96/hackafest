@@ -4,23 +4,22 @@
             <i class="fas fa-layer-group"></i>
         </div>
         <span class="header">
-                            <form method="POST" id="editcollection{{coll.id}}" style="display:none;">
-                                {% csrf_token %}
-                                <input style="width:90%;margin:auto;background-color: aliceblue;color: black;border: 0px;text-align: center;text-decoration: underline" class="browsebutton" type="text" name="name" id="" placeholder="Enter the name" value="{{coll.collectionName}}">
-                                <input hidden type="text" name="id" id="" value="{{coll.id}}">
-                                <div style="margin: auto;">
-                                <input class="mybtn btn btn-info" style="border: 0px;text-align: center;width: fit-content;margin: auto;"  type="submit" value="Add">
-                                </div>
-                        
-                            </form>
-
-                    <span class="header" id="collname{{coll.id}}"> <span class="browsebutton">{{coll.collectionName}}</span></span>
+            <form method="POST" id="editcollection{{coll.id}}" style="display:none;">
+                {% csrf_token %}
+                <input style="width:90%;margin:auto;background-color: aliceblue;color: black;border: 0px;text-align: center;text-decoration: underline" class="browsebutton" type="text" name="name" id="" placeholder="Enter the name" required>
+                <input hidden type="text" name="id" id="" value="{{coll.id}}">
+                <div style="margin: auto;">
+                <input class="mybtn btn btn-info" style="border: 0px;text-align: center;width: fit-content;margin: auto;"  type="submit" value="Add">
+                </div>
+        
+            </form>
+            <span class="header" id="collname{{coll.id}}"> <div class="browsebutton">{{coll.collectionName}}</div></span>
         <!-- <input type="file" hidden id="fileToUpload" type=".csv" /> -->
         </span>
         <!-- <span class="support">Files:{{coll.id}}</span> -->
 
         <div>
-            <button style="width: auto;" type="button " id="colleditbutton{{coll.id}}" class="mybtn btn btn-info" onclick="collectionAdd('{{coll.id}}')">New Collection</button>
+            <button style="width: auto;" type="button " id="colleditbutton{{coll.id}}" class="mybtn btn btn-info" onclick="collectionAdd('{{coll.id}}')">New Experiment</button>
         </div>
     </div>
 

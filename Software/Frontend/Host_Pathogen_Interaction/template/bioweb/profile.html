@@ -1,0 +1,23 @@
+{% load static %}{% include './elements/header.html' %}
+<div class="container-scroller">
+    {% include './elements/navbar.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_settings-panel.html -->
+        {% include './elements/settings.html' %}
+
+        <!-- partial -->
+        <!-- partial:partials/_sidebar.html -->
+        {% if user.is_authenticated %}
+            {% include './elements/sidebar.html' %}
+            <div> profile section
+            </div
+        {% else %}
+            {% include './intro.html' %}
+        {% endif %}
+
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+{% include './elements/footer.html' %}

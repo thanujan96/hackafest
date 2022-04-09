@@ -1,0 +1,98 @@
+{% load static %}{% include './elements/header.html' %}
+<div class="container-scroller">
+  {% include './elements/navbar.html' %}
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_settings-panel.html -->
+    {% include './elements/settings.html' %}
+    {% if user.is_authenticated %}
+    {%include './elements/sidebar.html' %}
+            <span id="viewarea">
+            <div class="icon">
+                {{charttype}}
+                    <path
+                        d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
+                </svg>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <select name="yaxis" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                    <option value="None">Selcet-y</option>
+
+                    {% for i in tablesHead%}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+                <select name="xaxis" id="tablehead" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change">
+                    <option value="None">Selcet-x</option>
+
+                    {% for i in tablesHead%}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+                rows : <input type="number" hx-post="/visualizer/" hx-target="#chartview" hx-trigger="change"
+                    name="noOfRow" min="0" max="{{maxRow}}" id="sortmininput" style="width: 70px;" required value="0">
+                <select name="charttype" id="charttype" hx-post="/visualizer/" hx-target="#chartview"
+                    hx-trigger="change">
+                    <option value="line">Charts</option>
+                    <option value="bar">bar</option>
+                    <option value="pie">pie</option>
+                    <option value="line">line</option>
+                    <option value="line">boxplot</option>
+                </select>
+            </form>
+            <div id="chartview"></div>
+
+            {% comment %} {% include './elements/visualizer.html' with data=data %} {% endcomment %}
+        </span>
+    <div class="container">
+      <div>
+        <canvas id="myChart" width="800" height="400"></canvas>
+      </div>
+      <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        ctx.width  = 800;
+        ctx.height = 600;
+        var myChart = new Chart(ctx, {
+            type: '{{charttype}}',
+            data: {
+                labels: {{label|safe}},
+                datasets: [{
+                    label: `{{title}}`,
+                    data: {{value|safe}},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+      </script>
+    </div>
+    {% endif %}
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+
+<!-- container-scroller -->
+{% include './elements/footer.html' %}
