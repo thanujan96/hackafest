@@ -11,7 +11,6 @@ from .forms import CreateUserForm, UpdateUserForm
 from .models import Collection, User
 from .models import CSVFile
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 
 # Create your views here.
 def index(request):
@@ -29,19 +28,6 @@ def register(request):
         messages.error(request, form.errors)
     form = CreateUserForm()
     return render(request, "bioweb/register.html", {"form": form})
-
-
-def profile(request):
-    if request.method == "POST":
-        form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Your profile has been updated !")
-            return redirect("/profile")
-        messages.error(request, form.errors)
-    form = UpdateUserForm(instance=request.user)
-    return render(request, "bioweb/profile.html", {"form": form})
 
 
 def profile(request):
