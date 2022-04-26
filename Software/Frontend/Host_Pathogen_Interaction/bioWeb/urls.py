@@ -19,11 +19,21 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from bioWeb import views
+
 urlpatterns = [
-    path("",views.index,name="Index"),
+    path("", views.index, name="Index"),
     path("register/", views.register, name="Register"),
-    path("login/", auth_views.LoginView.as_view(template_name='bioweb/login.html'), name="Login"),
-    path("logout/", auth_views.LogoutView.as_view(template_name='bioweb/indexnew.html'), name="Logout"),
+    path("profile/", views.profile, name="Profile"),
+    path(
+        "login/",
+        auth_views.LoginView.as_view(template_name="bioweb/login.html"),
+        name="Login",
+    ),
+    path(
+        "logout/",
+        auth_views.LogoutView.as_view(template_name="bioweb/indexnew.html"),
+        name="Logout",
+    ),
     path("experiments/", views.collections, name="Collections"),
     path("colldelete/<id>", views.collDelete, name="CollDelete"),
     path("csvviews/<id>", views.csvView, name="CsvView"),
@@ -33,17 +43,9 @@ urlpatterns = [
     path("selectedrow/", views.selectedrow, name="selectedrow"),
     path("summa/", views.summa, name="summa"),
     path("visualizer/<id>", views.visualizer, name="visualizer"),
-    path("profile/", views.profile, name="Profile"),
-
 ]
 
 
-htmxUrl=[
-    path("boxchart/<id>",views.boxchart,name="BoxChart"),
-    path("filterform/", views.filterform, name="FilterForm"),
-    path("restfilter/", views.restfilter, name="restfilter"),
+htmxUrl = [path("boxchart/<id>", views.boxchart, name="BoxChart")]
 
-
-]
-
-urlpatterns+=htmxUrl
+urlpatterns += htmxUrl

@@ -4,26 +4,28 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_settings-panel.html -->
-        {% include './elements/settings.html' %}
+        <!-- {% include './elements/settings.html' %} -->
 
         <!-- partial -->
         <!-- partial:partials/_sidebar.html -->
-        <div class="container-fluid d-flex align-items-center ">
+        <div class="row h-100 d-flex align-items-start mt-5">
             
-            <div class="col-md-offset-4 col-md-6 well">
-                <form method="POST" autocomplete="off">
-                    <h2 class="text-primary page-header text-center">User Registration</h2>
+            <div class="col-md-offset-4 p-5 col-md-5 well">
+                <form method="post" action="" autocomplete="on" enctype="multipart/form-data">
+                    <h2 class="text-success page-header text-center">User Registration</h2>
 
                     {% csrf_token %} {% if messages %} {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
+                    <div class="alert alert-{{ message.tags }}"  role="alert" style="margin-top: 2%;">
                         {{ message }}
                     </div>
                     {% endfor %} {% endif %} {{form|crispy}}
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <div class="d-flex justify-content-around">
+                    <button type="submit" class="btn btn-success">Register</button>
+                    
+                        <a role="button" class="btn btn-primary" href="{% url 'Login'%}">Log In</a>
+                    </div>
                 </form>
-                <div>
-                    <a href="{% url 'Login'%}">Sing In Now</a>
-                </div>
+                
             </div>
         </div>
 

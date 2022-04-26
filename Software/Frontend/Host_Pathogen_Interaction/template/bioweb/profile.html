@@ -1,17 +1,188 @@
-{% load static %}{% include './elements/header.html' %}
+{% load static %}{% include './elements/header.html' %}{% load crispy_forms_tags %}
 <div class="container-scroller">
     {% include './elements/navbar.html' %}
     <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
+    <div class="container-fluid page-body-wrapper ">
         <!-- partial:partials/_settings-panel.html -->
         {% include './elements/settings.html' %}
 
         <!-- partial -->
         <!-- partial:partials/_sidebar.html -->
         {% if user.is_authenticated %}
-            {% include './elements/sidebar.html' %}
-            <div> profile section
-            </div
+        {% include './elements/sidebar.html' %}
+            <!-- <div>
+                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+            <div>
+                <button class="btn btn-secondary text-dark mr-2 dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <span class="fas fa-plus mr-2"></span>New
+                </button>
+                <div class="dropdown-menu dashboard-dropdown dropdown-menu-left mt-2">
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="far fa-file-alt mr-2"></span>Document</a>
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="far fa-comment-dots mr-2"></span>Message</a>
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-box-open mr-2"></span>Product</a>
+                    <div role="separator" class="dropdown-divider"></div>
+                    <a class="dropdown-item font-weight-bold" href="#"><span
+                            class="fas fa-rocket text-danger mr-2"></span>Subscription Plan</a>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary mr-2"><span class="fas fa-calendar-alt"></span></button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <span class="fas fa-clipboard mr-2"></span>Reports
+                    <span class="icon icon-small ml-1"><span class="fas fa-chevron-down"></span></span>
+                </button>
+                <div class="dropdown-menu dashboard-dropdown dropdown-menu-left mt-2">
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-box-open mr-2"></span>Products</a>
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-store mr-2"></span>Customers</a>
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-cart-arrow-down mr-2"></span>Orders</a>
+                    <a class="dropdown-item font-weight-bold" href="#"><span class="fas fa-chart-pie mr-2"></span>Console</a>
+                    <div role="separator" class="dropdown-divider"></div>
+                    <a class="dropdown-item font-weight-bold" href="#"><span
+                            class="fas fa-rocket text-success mr-2"></span>All Reports</a>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-xl-8">
+                    <div class="card card-body bg-white border-light shadow-sm mb-4">
+                        <h2 class="h5 mb-4">Profile information</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <label for="first_name">First Name</label>
+                                    <input name="first_name" class="form-control" id="first_name" type="text"
+                                           placeholder="Enter your first name" value="{{ user.first_name }}"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <label for="last_name">Last Name</label>
+                                    <input name="last_name" class="form-control" id="last_name" type="text"
+                                           placeholder="Also your last name" value="{{ user.last_name }}"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-6 mb-3">
+                                <label for="birthday">Birthday</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                                    <input name="birthday" data-datepicker="" class="form-control" id="birthday"
+                                           type="text" placeholder="dd/mm/yyyy" value="{{ user.dob|date:'m/d/Y'|default:'' }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input name="email" class="form-control" id="email" type="email"
+                                           placeholder="name@company.com" value="{{ user.email }}" readonly>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        
+                        <h2 class="h5 my-4">Address</h2>
+                        <div class="row">
+                            <div class="col-sm-9 mb-3">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input name="address" class="form-control" id="address" type="text"
+                                           placeholder="Enter your home address" value="{{ user.address|default:'' }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Save All</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card border-light text-center p-0">
+                                <div class="profile-cover rounded-top"
+                                     data-background="/static/assets/img/profile-cover.jpg"></div>
+                                <div class="card-body pb-5">
+                                    <img src="{{ profile.get_avatar }}"
+                                         class="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4"
+                                         alt="Neil Portrait">
+                                    <h4 class="h3">{{ profile.user.username }}</h4>
+                                    <h4 class="font-weight-normal">{{ profile.user.get_full_name }}</h4>
+                                    <h5 class="font-weight-normal">
+                                        {{ request.user.email }}
+                                    </h5>
+                                    <p class="text-gray mb-4">{{ profile.address|default:'' }}</p>
+                                    <a class="btn btn-sm btn-primary mr-2" href="#"><span
+                                            class="fas fa-user-plus mr-1"></span> Connect</a>
+                                    <a class="btn btn-sm btn-secondary" href="#">Send Message</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card card-body bg-white border-light shadow-sm mb-4">
+                                <h2 class="h5 mb-4">Select profile photo</h2>
+                                <div class="d-xl-flex align-items-center">
+                                    <div class="file-field">
+                                        <div class="d-flex justify-content-xl-center ml-xl-3">
+                                            <div class="d-flex">
+                                                <span class="icon icon-md">
+                                                    <span class="fas fa-paperclip mr-3"></span>
+                                                </span>
+                                                <input name="thumb" type="file">
+                                                <div class="d-md-block text-left">
+                                                    <div class="font-weight-normal text-dark mb-1">Choose Image</div>
+                                                    <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+            </div> -->
+        
+        <!-- <div>
+            <div class="container d-flex align-items-center ">
+            
+                <div class="col-md-offset-4 col-md-4 well">
+                    <div class="row">
+                        <div class="col-4">
+                            user name
+                        </div>
+                        <div class="col-8">
+                            {{user.username}}
+                        </div>
+                    </div>
+                </div>
+                    
+                </div>
+        </div> -->
+
+        <div class="container d-flex align-items-center ">
+            
+            <div class="p-5 ">
+            <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                <h2 class="text-primary page-header text-start">Update your profile</h2>
+                {% csrf_token %} {{form|crispy}}
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+            </div>
+        </div>
+
         {% else %}
             {% include './intro.html' %}
         {% endif %}
