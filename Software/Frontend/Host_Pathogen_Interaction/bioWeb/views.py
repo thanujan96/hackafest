@@ -93,7 +93,7 @@ def csvView(request,id):
     userIdFormColl = Collection.objects.get(id=collectionNo).userId
     if(str(request.user.username) == str(userIdFormColl)):
         csvfiles = CSVFile.objects.filter(collectionId=collectionNo)
-        print(csvfiles[0].id)
+        # print(csvfiles[0].id)
         return render(request, 'bioweb/csvviews.html', {"csvviews": csvfiles})
         pass
     return redirect('Collections')
