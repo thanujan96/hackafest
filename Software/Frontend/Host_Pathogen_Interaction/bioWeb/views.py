@@ -116,53 +116,67 @@ def csvDelete(request, id):
     return redirect(url)
 
 
-def readCSV(request, id):
+def readCSV(request,id):
+    global feature
     print("readCSV call aakuthu")
     print(id)
     try:
-        csvFile = CSVFile.objects.get(id=id)
+        csvFile=CSVFile.objects.get(id=id)
     except:
-        return redirect("/collections/")
+        return redirect('/collections/')
     coll = csvFile.collectionId
-    userIdformColl = Collection.objects.get(id=coll.id).userId.id
-    if request.user.id == userIdformColl:
+    csvFiles = CSVFile.objects.filter(collectionId=coll)
+    for csv in csvFiles:
+        if(csv.fileType == 'Feature'):
+            featureCSVFile = csv.csvFile
+            # featureDf=pd.read_csv(featureCSVFile)
+        elif(csv.fileType == 'Label'):
+            labelCSVFile = csv.csvFile
+            labelDf=pd.read_csv(labelCSVFile)
+        elif(csv.fileType=="Meta"):
+            metaCSVFile = csv.csvFile
+            metaDf = pd.read_csv(metaCSVFile)
+
+    userIdformColl=Collection.objects.get(id=coll.id).userId.id
+    if(request.user.id==userIdformColl):
         csvFileName = csvFile.csvFile
         df = pd.read_csv(csvFileName)
         # print(df)
         feature = MlModelClass(df, labelDf, metaDf)
         tablesHead = df.columns
-        if request.method == "POST" and request.POST.get("csvsort") == "Filter":
+        if(request.method == "POST" and request.POST.get("csvsort") == "Filter"):
             endRow = int(request.POST.get("endRow"))
-            startRow = int(request.POST.get("startRow"))
+            startRow =int(request.POST.get("startRow"))
             selectValue = request.POST.get("sortview")
-            if selectValue != "None":
+            if(selectValue!="None"):
                 df1 = df.sort_values(selectValue)
-            if df1.shape[0] > 100:
-                df1 = df1.head(100)
-            df1 = df1.iloc[int(startRow) : int(endRow) + 1]
+            if(df1.shape[0]>100):
+                df1=df1.head(100)
+            df1 = df1.iloc[int(startRow):int(endRow)+1]
             data = df1.to_html()
-            context = {
+            context={
                 "csvfiledata": data,
-                "tablesHead": tablesHead,
-                "maxRow": df.shape[0] - 1,
-                "totalRows": df.shape[0],
-                "CSVid": id,
+                'tablesHead': tablesHead,
+                'maxRow': df.shape[0]-1,
+                'totalRows': df.shape[0],
+                "CSVid":id
             }
-            return render(request, "bioweb/readcsv.html", context)
-        if df.shape[0] > 100:
-            df1 = df.head(100)
+            return render(request, 'bioweb/readcsv.html',context)
+        if(df.shape[0]>100):
+            df1=df.head(100)
         else:
-            df1 = df
+            df1=df
         data = df1.to_html()
         context = {
             "csvfiledata": data,
-            "tablesHead": tablesHead,
-            "totalRows": df.shape[0],
-            "maxRow": df.shape[0] - 1,
-            "CSVid": id,
+            'tablesHead': tablesHead,
+            'totalRows': df.shape[0],
+            'maxRow': df.shape[0]-1,
+            "CSVid": id
+
         }
-        return render(request, "bioweb/readcsv.html", context)
-    return redirect(request.META.get("HTTP_REFERER"))
+        return render(request, 'bioweb/readcsv.html', context)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def sortcsv(request):
