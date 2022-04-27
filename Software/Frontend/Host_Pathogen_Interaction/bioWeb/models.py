@@ -7,6 +7,8 @@ from io import BytesIO
 from django.core.files import File
 from django.core.files.base import ContentFile
 
+# from sqlalchemy import null
+
 
 class ResizeImageMixin:
     def resize(self, imageField: models.ImageField, size: tuple):
@@ -50,10 +52,12 @@ class User(AbstractUser, ResizeImageMixin):
     last_name = models.CharField(max_length=10)
     address = models.CharField(max_length=100, blank=True)
 
-    def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.resize(self.thumb, (200, 200))
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.pk is None:
+    #         # print(self.thumb)
+    #         if self.thumb != None:
+    #             self.resize(self.thumb, (200, 200))
+    #     super().save(*args, **kwargs)
 
 
 class Collection(models.Model):
